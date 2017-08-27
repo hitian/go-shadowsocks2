@@ -22,6 +22,10 @@ var config struct {
 	UDPTimeout time.Duration
 }
 
+var upstreamProxy struct {
+	Addr string
+}
+
 func logf(f string, v ...interface{}) {
 	if config.Verbose {
 		log.Printf(f, v...)
@@ -52,6 +56,7 @@ func main() {
 	flag.StringVar(&flags.Server, "s", "", "server listen address or url")
 	flag.StringVar(&flags.Client, "c", "", "client connect address or url")
 	flag.StringVar(&flags.Socks, "socks", "", "(client-only) SOCKS listen address")
+	flag.StringVar(&upstreamProxy.Addr, "proxy", "", "(client-only) upstream socks5 proxy server address:port ")
 	flag.StringVar(&flags.RedirTCP, "redir", "", "(client-only) redirect TCP from this address")
 	flag.StringVar(&flags.RedirTCP6, "redir6", "", "(client-only) redirect TCP IPv6 from this address")
 	flag.StringVar(&flags.TCPTun, "tcptun", "", "(client-only) TCP tunnel (laddr1=raddr1,laddr2=raddr2,...)")

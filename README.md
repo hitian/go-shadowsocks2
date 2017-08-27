@@ -4,6 +4,24 @@ A fresh implementation of Shadowsocks in Go.
 
 GoDoc at https://godoc.org/github.com/shadowsocks/go-shadowsocks2/
 
+## Fork Notice
+
+* forked from https://github.com/shadowsocks/go-shadowsocks2/
+* add support for `connect remote shadowsocks server via local socks5 proxy`.
+
+### Usage
+
+only for client side. 
+
+Install 
+
+```sh
+go get -u -v github.com/hitian/go-shadowsocks2
+```
+
+add param `--proxy "local_socks5_proxy_addr:port"`
+
+
 
 ## Features
 

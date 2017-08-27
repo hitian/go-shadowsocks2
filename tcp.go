@@ -2,10 +2,12 @@ package main
 
 import (
 	"io"
+	"log"
 	"net"
 	"time"
 
 	"github.com/shadowsocks/go-shadowsocks2/socks"
+	"golang.org/x/net/proxy"
 )
 
 // Create a SOCKS server listening on addr and proxy to server.
@@ -50,7 +52,7 @@ func tcpLocal(addr, server string, shadow func(net.Conn) net.Conn, getAddr func(
 				return
 			}
 
-			rc, err := net.Dial("tcp", server)
+			rc, err := localTCPDial(server)
 			if err != nil {
 				logf("failed to connect to server %v: %v", server, err)
 				return
@@ -148,4 +150,19 @@ func relay(left, right net.Conn) (int64, int64, error) {
 		err = rs.Err
 	}
 	return n, rs.N, err
+}
+
+func localTCPDial(targetAddr string) (net.Conn, error) {
+	if upstreamProxy.Addr != "" {
+		dialer, err := proxy.SOCKS5("tcp", upstreamProxy.Addr, nil, proxy.Direct)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		if dialer != nil {
+			return dialer.Dial("tcp", targetAddr)
+		}
+	}
+
+	return net.Dial("tcp", targetAddr)
 }
