@@ -6,7 +6,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/shadowsocks/go-shadowsocks2/socks"
+	"github.com/hitian/go-shadowsocks2/socks"
 	"golang.org/x/net/proxy"
 )
 
